@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./email.css">
+
+</head>
+
+<body>
+    <div class="fd">
+        <h1 style="color: red;padding: 20px;cursor: pointer;" id="bshub">BsHub</h1>
+    </div>
+    <div id="container">
+        <div>
+            <h1 id="welcome" class="cen"><span style="color: red;">DELETE YOUR ACCOUNT</span></h1>
+        </div>
+        <div id="ifd">
+            <h4 class="in">Email</h4>
+            <input id="input1" type="text">
+            <div class="cen">
+                <div id="button"><button id="b1">SUBMIT</button></div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+<script>
+    let btn = document.getElementById("button")
+    let bshub = document.getElementById("bshub")
+    let one = document.getElementById("input1")
+    let two = document.getElementById("input2")
+    let tempuser = JSON.parse(localStorage.getItem("tempuser"))
+    let currentuser = JSON.parse(localStorage.getItem("currentuser"))
+    bshub.addEventListener("click", () => {
+        window.location.href = "./services.html"
+    })
+
+
+
+    btn.addEventListener("click", () => {
+        let actualuser
+        if (tempuser) {
+            if (input1.value == tempuser.email) {
+                actualuser = tempuser.email
+                let data = {
+                    email: actualuser
+                }
+                fetch("https://bored-pink-chiton.cyclic.app/accountdelete", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(res => res.json())
+                    .then((res) => {
+                        if (res == "success") {
+                            localStorage.clear()
+                            alert("ACCOUNT DELETED")
+                            window.location.href = "./index.html"
+                        } else {
+                            alert("Invalid Credentials")
+                        }
+                    })
+                    .catch(err => console.log(err))
+            } else {
+                alert("Invalid Credentials")
+            }
+            
+        } else {
+            actualuser = currentuser.email
+            if (input1.value == currentuser.email) {
+                let data = {
+                    email: actualuser
+                }
+                fetch("https://bored-pink-chiton.cyclic.app/accountdelete", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(res => res.json())
+                    .then((res) => {
+                        if (res == "success") {
+                            localStorage.clear()
+                            alert("ACCOUNT DELETED")
+                            window.location.href = "./index.html"
+                        } else {
+                            alert("Invalid Credentials")
+                        }
+                    })
+                    .catch(err => console.log(err))
+            }else{
+                alert("Invalid Credentials")
+            }
+
+        }
+
+
+    })
+
+</script>
+
+</html>
